@@ -2119,9 +2119,287 @@
 
 
 
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Layout } from "@/components/layout/Layout";
+// import { Button } from "@/components/ui/button";
+// import { useCart } from "@/hooks/useCart";
+// import {
+//   Lock,
+//   MapPin,
+//   User,
+//   Phone,
+//   Tag,
+//   CheckCircle,
+//   XCircle,
+//   Building,
+//   Map,
+//   Hash,
+// } from "lucide-react";
+// import { toast } from "sonner";
+// import { loadRazorpay } from "@/lib/razorpay";
+
+// export default function Checkout() {
+//   const { items, total, clearCart } = useCart();
+//   const navigate = useNavigate();
+
+//   const [form, setForm] = useState({
+//     name: "",
+//     phone: "",
+//     address: "",
+//     city: "",
+//     pincode: "",
+//     state: "",
+//   });
+
+//   /* PROMO */
+//   const [promo, setPromo] = useState("");
+//   const [discount, setDiscount] = useState(0);
+//   const [appliedCode, setAppliedCode] = useState<string | null>(null);
+//   const [loadingPromo, setLoadingPromo] = useState(false);
+
+//   /* PAYMENT */
+//   const [loadingPay, setLoadingPay] = useState(false);
+
+//   const handleChange = (e: any) =>
+//     setForm({ ...form, [e.target.name]: e.target.value });
+
+//   const finalTotal = Math.max(total - discount, 0);
+
+//   /* ================= PROMO ================= */
+//   const applyPromo = async () => {
+//     if (!promo.trim()) {
+//       toast.error("Enter a promo code");
+//       return;
+//     }
+
+//     try {
+//       setLoadingPromo(true);
+//       const res = await fetch(
+//         "http://127.0.0.1:8000/api/auth/apply-promo/",
+//         {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify({ code: promo.trim(), total }),
+//         }
+//       );
+
+//       const data = await res.json();
+
+//       if (!res.ok) {
+//         toast.error(data.error || "Invalid promo code");
+//         return;
+//       }
+
+//       setDiscount(data.discount);
+//       setAppliedCode(promo.trim().toUpperCase());
+//       toast.success(`Promo applied! You saved ₹${data.discount}`);
+//     } catch {
+//       toast.error("Server error");
+//     } finally {
+//       setLoadingPromo(false);
+//     }
+//   };
+
+//   const removePromo = () => {
+//     setPromo("");
+//     setDiscount(0);
+//     setAppliedCode(null);
+//     toast("Promo removed");
+//   };
+
+//   /* ================= PAYMENT ================= */
+//   const handlePay = async () => {
+//     if (!Object.values(form).every(Boolean)) {
+//       toast.error("Please fill all delivery details");
+//       return;
+//     }
+
+//     setLoadingPay(true);
+
+//     const loaded = await loadRazorpay();
+//     if (!loaded) {
+//       toast.error("Razorpay SDK failed to load");
+//       setLoadingPay(false);
+//       return;
+//     }
+
+//     try {
+//       const res = await fetch(
+//         "http://127.0.0.1:8000/api/auth/create-order/",
+//         {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify({
+//             ...form,
+//             items,
+//             subtotal: total,
+//             discount,
+//           }),
+//         }
+//       );
+
+//       const order = await res.json();
+
+//       if (!res.ok) {
+//         toast.error(order.error || "Failed to create order");
+//         setLoadingPay(false);
+//         return;
+//       }
+
+//       const options = {
+//         key: "rzp_test_SBBe23J2gnGlcp",
+//         amount: order.amount,
+//         currency: "INR",
+//         name: "Thrisheka Jewels",
+//         description: "Jewellery Purchase",
+//         order_id: order.order_id,
+
+//         handler: async function (response: any) {
+//           const verifyRes = await fetch(
+//             "http://127.0.0.1:8000/api/auth/verify-payment/",
+//             {
+//               method: "POST",
+//               headers: { "Content-Type": "application/json" },
+//               body: JSON.stringify(response),
+//             }
+//           );
+
+//           const verifyData = await verifyRes.json();
+
+//           if (verifyData.success) {
+//             toast.success("Payment successful!");
+//             clearCart();
+//             setTimeout(() => navigate("/"), 1500);
+//           } else {
+//             toast.error("Payment verification failed");
+//           }
+//         },
+
+//         prefill: {
+//           name: form.name,
+//           contact: form.phone,
+//         },
+
+//         theme: { color: "#d97706" },
+//       };
+
+//       const rzp = new (window as any).Razorpay(options);
+//       rzp.open();
+//     } catch {
+//       toast.error("Payment failed");
+//     } finally {
+//       setLoadingPay(false);
+//     }
+//   };
+
+//   /* ================= UI ================= */
+//   return (
+//     <Layout>
+//       <div className="min-h-screen bg-gradient-to-br from-[#fff7ed] via-[#fff1f2] to-[#ffe4e6] py-20">
+//         <div className="max-w-6xl mx-auto px-4">
+//           <h1 className="text-4xl font-bold text-center mb-12">
+//             Secure Checkout
+//           </h1>
+
+//           <div className="grid lg:grid-cols-3 gap-10">
+//             {/* LEFT */}
+//             <div className="lg:col-span-2 space-y-8">
+//               {/* ADDRESS */}
+//               <div className="bg-white rounded-2xl shadow-xl p-8">
+//                 <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+//                   <MapPin className="w-5 h-5" />
+//                   Delivery Information
+//                 </h2>
+
+//                 <div className="grid md:grid-cols-2 gap-5">
+//                   <Input icon={<User />} name="name" placeholder="Full Name" onChange={handleChange} />
+//                   <Input icon={<Phone />} name="phone" placeholder="Phone Number" onChange={handleChange} />
+//                   <Input icon={<Building />} name="city" placeholder="City" onChange={handleChange} />
+//                   <Input icon={<Hash />} name="pincode" placeholder="Pincode" onChange={handleChange} />
+//                   <Input icon={<Map />} name="state" placeholder="State" onChange={handleChange} full />
+//                   <TextArea icon={<MapPin />} name="address" placeholder="Full Address" onChange={handleChange} />
+//                 </div>
+//               </div>
+
+//               {/* PAY */}
+//               <div className="bg-white rounded-2xl shadow-xl p-8">
+//                 <Button className="w-full text-lg" onClick={handlePay} disabled={loadingPay}>
+//                   <Lock className="w-5 h-5 mr-2" />
+//                   {loadingPay ? "Processing..." : `Proceed to Pay ₹${finalTotal}`}
+//                 </Button>
+//               </div>
+//             </div>
+
+//             {/* RIGHT */}
+//             <div className="space-y-6">
+//               <div className="bg-white rounded-2xl shadow-xl p-6">
+//                 <h2 className="font-semibold mb-4 flex items-center gap-2">
+//                   <Tag className="w-5 h-5" />
+//                   Promo Code
+//                 </h2>
+
+//                 {!appliedCode ? (
+//                   <div className="flex gap-2">
+//                     <input
+//                       value={promo}
+//                       onChange={(e) => setPromo(e.target.value)}
+//                       placeholder="Enter promo code"
+//                       className="flex-1 border rounded-lg px-3 py-2"
+//                     />
+//                     <Button variant="outline" onClick={applyPromo} disabled={loadingPromo}>
+//                       {loadingPromo ? "Checking..." : "Apply"}
+//                     </Button>
+//                   </div>
+//                 ) : (
+//                   <div className="flex justify-between bg-green-50 border border-green-400 rounded-lg px-4 py-2">
+//                     <span className="text-green-700 font-semibold flex items-center gap-1">
+//                       <CheckCircle className="w-4 h-4" />
+//                       {appliedCode} Applied
+//                     </span>
+//                     <Button size="sm" variant="destructive" onClick={removePromo}>
+//                       <XCircle className="w-4 h-4 mr-1" />
+//                       Remove
+//                     </Button>
+//                   </div>
+//                 )}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </Layout>
+//   );
+// }
+
+// /* ====== REUSABLE INPUT COMPONENTS ====== */
+// const Input = ({ icon, name, placeholder, onChange, full = false }: any) => (
+//   <div className={`flex items-center border rounded-lg px-3 ${full ? "md:col-span-2" : ""}`}>
+//     {icon && <span className="text-muted-foreground w-5 h-5">{icon}</span>}
+//     <input
+//       name={name}
+//       placeholder={placeholder}
+//       onChange={onChange}
+//       className="w-full px-3 py-3 outline-none"
+//     />
+//   </div>
+// );
+
+// const TextArea = ({ icon, name, placeholder, onChange }: any) => (
+//   <div className="flex border rounded-lg px-3 md:col-span-2">
+//     {icon && <span className="text-muted-foreground mt-3 w-5 h-5">{icon}</span>}
+//     <textarea
+//       name={name}
+//       placeholder={placeholder}
+//       onChange={onChange}
+//       className="w-full px-3 py-3 outline-none resize-none h-28"
+//     />
+//   </div>
+// );
+
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import {
@@ -2295,80 +2573,78 @@ export default function Checkout() {
 
   /* ================= UI ================= */
   return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-[#fff7ed] via-[#fff1f2] to-[#ffe4e6] py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-center mb-12">
-            Secure Checkout
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-[#fff7ed] via-[#fff1f2] to-[#ffe4e6] py-20">
+      <div className="max-w-6xl mx-auto px-4">
+        <h1 className="text-4xl font-bold text-center mb-12">
+          Secure Checkout
+        </h1>
 
-          <div className="grid lg:grid-cols-3 gap-10">
-            {/* LEFT */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* ADDRESS */}
-              <div className="bg-white rounded-2xl shadow-xl p-8">
-                <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                  <MapPin className="w-5 h-5" />
-                  Delivery Information
-                </h2>
+        <div className="grid lg:grid-cols-3 gap-10">
+          {/* LEFT */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* ADDRESS */}
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                <MapPin className="w-5 h-5" />
+                Delivery Information
+              </h2>
 
-                <div className="grid md:grid-cols-2 gap-5">
-                  <Input icon={<User />} name="name" placeholder="Full Name" onChange={handleChange} />
-                  <Input icon={<Phone />} name="phone" placeholder="Phone Number" onChange={handleChange} />
-                  <Input icon={<Building />} name="city" placeholder="City" onChange={handleChange} />
-                  <Input icon={<Hash />} name="pincode" placeholder="Pincode" onChange={handleChange} />
-                  <Input icon={<Map />} name="state" placeholder="State" onChange={handleChange} full />
-                  <TextArea icon={<MapPin />} name="address" placeholder="Full Address" onChange={handleChange} />
-                </div>
-              </div>
-
-              {/* PAY */}
-              <div className="bg-white rounded-2xl shadow-xl p-8">
-                <Button className="w-full text-lg" onClick={handlePay} disabled={loadingPay}>
-                  <Lock className="w-5 h-5 mr-2" />
-                  {loadingPay ? "Processing..." : `Proceed to Pay ₹${finalTotal}`}
-                </Button>
+              <div className="grid md:grid-cols-2 gap-5">
+                <Input icon={<User />} name="name" placeholder="Full Name" onChange={handleChange} />
+                <Input icon={<Phone />} name="phone" placeholder="Phone Number" onChange={handleChange} />
+                <Input icon={<Building />} name="city" placeholder="City" onChange={handleChange} />
+                <Input icon={<Hash />} name="pincode" placeholder="Pincode" onChange={handleChange} />
+                <Input icon={<Map />} name="state" placeholder="State" onChange={handleChange} full />
+                <TextArea icon={<MapPin />} name="address" placeholder="Full Address" onChange={handleChange} />
               </div>
             </div>
 
-            {/* RIGHT */}
-            <div className="space-y-6">
-              <div className="bg-white rounded-2xl shadow-xl p-6">
-                <h2 className="font-semibold mb-4 flex items-center gap-2">
-                  <Tag className="w-5 h-5" />
-                  Promo Code
-                </h2>
+            {/* PAY */}
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <Button className="w-full text-lg" onClick={handlePay} disabled={loadingPay}>
+                <Lock className="w-5 h-5 mr-2" />
+                {loadingPay ? "Processing..." : `Proceed to Pay ₹${finalTotal}`}
+              </Button>
+            </div>
+          </div>
 
-                {!appliedCode ? (
-                  <div className="flex gap-2">
-                    <input
-                      value={promo}
-                      onChange={(e) => setPromo(e.target.value)}
-                      placeholder="Enter promo code"
-                      className="flex-1 border rounded-lg px-3 py-2"
-                    />
-                    <Button variant="outline" onClick={applyPromo} disabled={loadingPromo}>
-                      {loadingPromo ? "Checking..." : "Apply"}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex justify-between bg-green-50 border border-green-400 rounded-lg px-4 py-2">
-                    <span className="text-green-700 font-semibold flex items-center gap-1">
-                      <CheckCircle className="w-4 h-4" />
-                      {appliedCode} Applied
-                    </span>
-                    <Button size="sm" variant="destructive" onClick={removePromo}>
-                      <XCircle className="w-4 h-4 mr-1" />
-                      Remove
-                    </Button>
-                  </div>
-                )}
-              </div>
+          {/* RIGHT */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-xl p-6">
+              <h2 className="font-semibold mb-4 flex items-center gap-2">
+                <Tag className="w-5 h-5" />
+                Promo Code
+              </h2>
+
+              {!appliedCode ? (
+                <div className="flex gap-2">
+                  <input
+                    value={promo}
+                    onChange={(e) => setPromo(e.target.value)}
+                    placeholder="Enter promo code"
+                    className="flex-1 border rounded-lg px-3 py-2"
+                  />
+                  <Button variant="outline" onClick={applyPromo} disabled={loadingPromo}>
+                    {loadingPromo ? "Checking..." : "Apply"}
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex justify-between bg-green-50 border border-green-400 rounded-lg px-4 py-2">
+                  <span className="text-green-700 font-semibold flex items-center gap-1">
+                    <CheckCircle className="w-4 h-4" />
+                    {appliedCode} Applied
+                  </span>
+                  <Button size="sm" variant="destructive" onClick={removePromo}>
+                    <XCircle className="w-4 h-4 mr-1" />
+                    Remove
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
 

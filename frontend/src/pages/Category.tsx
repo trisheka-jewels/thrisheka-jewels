@@ -60,11 +60,9 @@
 // }
 
 
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/product/ProductCard";
 
 interface Product {
@@ -89,41 +87,39 @@ export default function Category() {
   }, [slug]);
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 pb-16">
-        {/* Page Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
-          <h1 className="text-4xl md:text-5xl font-heading font-semibold mb-4 capitalize">
-            {slug?.replace("-", " ")}
-          </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Explore our exquisite collection of {slug?.replace("-", " ")}
+    <div className="container mx-auto px-4 pb-16">
+      {/* Page Title */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-10"
+      >
+        <h1 className="text-4xl md:text-5xl font-heading font-semibold mb-4 capitalize">
+          {slug?.replace("-", " ")}
+        </h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Explore our exquisite collection of {slug?.replace("-", " ")}
+        </p>
+      </motion.div>
+
+      {/* Products Grid */}
+      <motion.div
+        layout
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
+      >
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </motion.div>
+
+      {!loading && products.length === 0 && (
+        <div className="text-center py-16">
+          <p className="text-muted-foreground">
+            No products found in this category.
           </p>
-        </motion.div>
-
-        {/* Products Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
-        >
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </motion.div>
-
-        {!loading && products.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground">
-              No products found in this category.
-            </p>
-          </div>
-        )}
-      </div>
-    </Layout>
+        </div>
+      )}
+    </div>
   );
 }
