@@ -108,10 +108,10 @@
 //                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
 //                     />
 //                   </div>
-                  
+
 //                   {/* Overlay Gradient */}
 //                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  
+
 //                   {/* Content */}
 //                   <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-white">
 //                     <h3 className="text-lg md:text-xl font-heading font-semibold mb-1">
@@ -133,8 +133,6 @@
 //     </section>
 //   );
 // }
-
-
 
 // import { Link } from 'react-router-dom';
 // import { motion } from 'framer-motion';
@@ -268,7 +266,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { Link } from 'react-router-dom';
 // import { motion } from 'framer-motion';
@@ -458,9 +455,9 @@ const DEFAULT_CATEGORIES: Category[] = [
 
 export function ShopByCategory() {
   const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/auth/categories/")
+    fetch(`${API_BASE_URL}/api/auth/categories/`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {

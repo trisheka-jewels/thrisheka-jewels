@@ -52,7 +52,6 @@
 //   );
 // }
 
-
 // import { Link } from "react-router-dom";
 // import { motion } from "framer-motion";
 // import { ArrowRight } from "lucide-react";
@@ -118,8 +117,6 @@
 //   );
 // }
 
-
-
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -130,11 +127,12 @@ import { useEffect, useState } from "react";
 
 export function FeaturedCollections() {
   const [featuredProducts, setFeaturedProducts] = useState(
-    LOCAL_PRODUCTS.slice(0, 6)
+    LOCAL_PRODUCTS.slice(0, 6),
   );
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/auth/featured-products/")
+    fetch(`${API_BASE_URL}/api/auth/featured-products/`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {

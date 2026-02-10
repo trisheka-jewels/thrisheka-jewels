@@ -72,10 +72,10 @@
 //             alt={slides[current].title}
 //             className="w-full h-full object-cover"
 //           />
-          
+
 //           {/* Overlay Gradient */}
 //           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-          
+
 //           {/* Content */}
 //           <div className="absolute inset-0 container mx-auto px-4 flex items-center">
 //             <div className="max-w-xl">
@@ -215,10 +215,10 @@
 //             alt={slides[current].title}
 //             className="w-full h-full object-cover"
 //           />
-          
+
 //           {/* Darker Overlay */}
 //           <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/20" />
-          
+
 //           {/* Content */}
 //           <div className="absolute inset-0 container mx-auto px-4 flex items-center">
 //             <div className="max-w-xl">
@@ -288,7 +288,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -433,8 +432,6 @@
 //     </section>
 //   );
 // }
-
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -585,7 +582,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { motion, AnimatePresence } from 'framer-motion';
@@ -735,7 +731,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { motion, AnimatePresence } from 'framer-motion';
@@ -876,7 +871,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -1022,7 +1016,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -1171,7 +1164,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -1215,7 +1207,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -1398,7 +1389,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
 // import { motion, AnimatePresence } from 'framer-motion';
@@ -1540,7 +1530,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 // import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -1656,7 +1645,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from 'react';
 // import { Link } from 'react-router-dom';
@@ -1906,7 +1894,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 // import { motion, AnimatePresence } from "framer-motion";
@@ -2015,7 +2002,6 @@
 //     </section>
 //   );
 // }
-
 
 // import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
@@ -2135,7 +2121,6 @@
 //   );
 // }
 
-
 // import { useState, useEffect } from "react";
 // import { Link } from "react-router-dom";
 // import { motion, AnimatePresence } from "framer-motion";
@@ -2254,7 +2239,6 @@
 //   );
 // }
 
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -2301,11 +2285,11 @@ const DEFAULT_SLIDES = [
 export function HeroCarousel() {
   const [slides, setSlides] = useState<any[]>(DEFAULT_SLIDES);
   const [current, setCurrent] = useState(0);
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Fetch banners from backend
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/auth/banners/")
+      .get(`${API_BASE_URL}/api/auth/banners/`)
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setSlides(res.data);
@@ -2329,7 +2313,6 @@ export function HeroCarousel() {
   return (
     <section className="bg-[#f8efe7] py-6 md:py-12">
       <div className="container mx-auto px-4">
-
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -2374,9 +2357,7 @@ export function HeroCarousel() {
               key={i}
               onClick={() => setCurrent(i)}
               className={`h-2 rounded-full transition-all ${
-                i === current
-                  ? "w-6 bg-[#7a3e2e]"
-                  : "w-2 bg-[#7a3e2e]/50"
+                i === current ? "w-6 bg-[#7a3e2e]" : "w-2 bg-[#7a3e2e]/50"
               }`}
             />
           ))}

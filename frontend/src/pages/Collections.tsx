@@ -78,7 +78,6 @@
 //   );
 // }
 
-
 // import { useEffect, useState } from "react";
 // import { motion } from "framer-motion";
 // import { Layout } from "@/components/layout/Layout";
@@ -205,7 +204,6 @@
 //   );
 // }
 
-
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -222,12 +220,12 @@ interface Category {
 }
 
 interface Product {
-  id: number;
+  id: string | number;
   name: string;
   price: number;
   image: string;
   category__slug?: string;
-  category?: string;
+  category: string;
 }
 
 export default function Collections() {
@@ -238,10 +236,10 @@ export default function Collections() {
 
   const [products, setProducts] = useState<Product[]>(LOCAL_PRODUCTS);
   const [activeCategory, setActiveCategory] = useState("all");
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Fetch categories
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/auth/categories/")
+    fetch(`${API_BASE_URL}/api/auth/categories/`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -253,7 +251,7 @@ export default function Collections() {
 
   // Fetch all products
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/auth/featured-products/")
+    fetch(`${API_BASE_URL}/api/auth/featured-products/`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -269,7 +267,7 @@ export default function Collections() {
       : products.filter(
           (p) =>
             p.category__slug === activeCategory ||
-            p.category === activeCategory
+            p.category === activeCategory,
         );
 
   return (
@@ -304,7 +302,7 @@ export default function Collections() {
               "px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300",
               activeCategory === category.slug
                 ? "bg-primary text-primary-foreground shadow-md"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80",
             )}
           >
             {category.name}

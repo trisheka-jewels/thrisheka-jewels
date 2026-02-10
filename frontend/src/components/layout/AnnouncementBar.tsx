@@ -39,7 +39,6 @@
 //   );
 // }
 
-
 // import { motion } from "framer-motion";
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -93,7 +92,6 @@
 //   );
 // }
 
-
 // import { useEffect, useState } from "react";
 // import axios from "axios";
 
@@ -149,7 +147,6 @@
 //     </div>
 //   );
 // }
-
 
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -209,7 +206,6 @@
 //     </div>
 //   );
 // }
-
 
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -271,7 +267,6 @@
 //     </div>
 //   );
 // }
-
 
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -314,7 +309,6 @@
 //     </div>
 //   );
 // }
-
 
 // import { useEffect, useState } from "react";
 // import axios from "axios";
@@ -378,8 +372,6 @@
 //     </div>
 //   );
 // }
-
-
 
 // import { useEffect, useRef, useState } from "react";
 // import axios from "axios";
@@ -448,7 +440,6 @@
 //   );
 // }
 
-
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
@@ -461,17 +452,21 @@ const DEFAULT_ANNOUNCEMENTS = [
 ];
 
 export function AnnouncementBar() {
-  const [announcements, setAnnouncements] = useState<string[]>(DEFAULT_ANNOUNCEMENTS);
+  const [announcements, setAnnouncements] = useState<string[]>(
+    DEFAULT_ANNOUNCEMENTS,
+  );
   const trackRef = useRef<HTMLDivElement>(null);
   const x = useRef(0);
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   // Fetch from Django API
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/auth/announcements/")
+      .get(`${API_BASE_URL}/api/auth/announcements/`)
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
-          setAnnouncements(res.data.map((item: any) => item.title || item.message));
+          setAnnouncements(
+            res.data.map((item: any) => item.title || item.message),
+          );
         }
       })
       .catch(() => {

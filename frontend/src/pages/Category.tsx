@@ -59,7 +59,6 @@
 //   );
 // }
 
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -70,17 +69,18 @@ interface Product {
   name: string;
   price: number;
   image: string;
+  category: string;
 }
 
 export default function Category() {
   const { slug } = useParams<{ slug: string }>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     if (!slug) return;
 
-    fetch(`http://127.0.0.1:8000/api/auth/category/${slug}/`)
+    fetch(`${API_BASE_URL}/api/auth/category/${slug}/`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .finally(() => setLoading(false));

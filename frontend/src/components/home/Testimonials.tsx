@@ -72,7 +72,7 @@
 //               className="bg-card rounded-2xl p-8 md:p-12 shadow-lg"
 //             >
 //               <Quote className="h-12 w-12 text-primary/20 mb-6" />
-              
+
 //               <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8 font-body">
 //                 "{testimonials[current].text}"
 //               </p>
@@ -134,7 +134,6 @@
 //   );
 // }
 
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
@@ -146,8 +145,7 @@ const DEFAULT_TESTIMONIALS = [
     name: "Priya Sharma",
     location: "Bangalore",
     rating: 5,
-    text:
-      "Absolutely stunning jewellery! The craftsmanship is exceptional and the designs are truly authentic. My bridal set was exactly what I dreamed of.",
+    text: "Absolutely stunning jewellery! The craftsmanship is exceptional and the designs are truly authentic. My bridal set was exactly what I dreamed of.",
     image: "/placeholder.svg",
   },
   {
@@ -155,8 +153,7 @@ const DEFAULT_TESTIMONIALS = [
     name: "Lakshmi Devi",
     location: "Chennai",
     rating: 5,
-    text:
-      "Thrisheka Jewels has the best collection of temple jewellery. The quality is outstanding and the customer service is excellent.",
+    text: "Thrisheka Jewels has the best collection of temple jewellery. The quality is outstanding and the customer service is excellent.",
     image: "/placeholder.svg",
   },
   {
@@ -164,8 +161,7 @@ const DEFAULT_TESTIMONIALS = [
     name: "Anjali Reddy",
     location: "Hyderabad",
     rating: 5,
-    text:
-      "I bought earrings and a necklace set for my wedding. Everyone complimented the beautiful designs. Highly recommend!",
+    text: "I bought earrings and a necklace set for my wedding. Everyone complimented the beautiful designs. Highly recommend!",
     image: "/placeholder.svg",
   },
   {
@@ -173,8 +169,7 @@ const DEFAULT_TESTIMONIALS = [
     name: "Kavitha Nair",
     location: "Kerala",
     rating: 5,
-    text:
-      "The attention to detail in every piece is remarkable. These are heirloom pieces that I will pass down to my daughter.",
+    text: "The attention to detail in every piece is remarkable. These are heirloom pieces that I will pass down to my daughter.",
     image: "/placeholder.svg",
   },
 ];
@@ -182,10 +177,10 @@ const DEFAULT_TESTIMONIALS = [
 export function Testimonials() {
   const [testimonials, setTestimonials] = useState(DEFAULT_TESTIMONIALS);
   const [current, setCurrent] = useState(0);
-
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/auth/testimonials/")
+      .get(`${API_BASE_URL}/api/auth/testimonials/`)
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setTestimonials(res.data);
@@ -197,8 +192,7 @@ export function Testimonials() {
 
   const prev = () =>
     setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
-  const next = () =>
-    setCurrent((c) => (c + 1) % testimonials.length);
+  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
 
   return (
     <section className="py-20 bg-secondary/30">
@@ -263,11 +257,17 @@ export function Testimonials() {
           </AnimatePresence>
 
           {/* Navigation */}
-          <button onClick={prev} className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-background shadow-lg flex items-center justify-center hover:bg-secondary transition-colors">
+          <button
+            onClick={prev}
+            className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-background shadow-lg flex items-center justify-center hover:bg-secondary transition-colors"
+          >
             <ChevronLeft className="h-6 w-6" />
           </button>
 
-          <button onClick={next} className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-background shadow-lg flex items-center justify-center hover:bg-secondary transition-colors">
+          <button
+            onClick={next}
+            className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-background shadow-lg flex items-center justify-center hover:bg-secondary transition-colors"
+          >
             <ChevronRight className="h-6 w-6" />
           </button>
 

@@ -76,7 +76,7 @@
 //               <div>
 //                 <h2 className="text-xl font-semibold mb-4">Payment</h2>
 //                 <p className="text-muted-foreground mb-6">
-//                   Online payments are coming soon.  
+//                   Online payments are coming soon.
 //                   For now, place order through WhatsApp.
 //                 </p>
 
@@ -101,7 +101,6 @@
 //     </Layout>
 //   );
 // }
-
 
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
@@ -259,7 +258,6 @@
 //     </Layout>
 //   );
 // }
-
 
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
@@ -444,7 +442,6 @@
 //     </Layout>
 //   );
 // }
-
 
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
@@ -890,7 +887,6 @@
 //   );
 // }
 
-
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
 // import { Button } from "@/components/ui/button";
@@ -1142,7 +1138,6 @@
 //     </Layout>
 //   );
 // }
-
 
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
@@ -1494,7 +1489,6 @@
 //   );
 // }
 
-
 // import { useState } from "react";
 // import { Layout } from "@/components/layout/Layout";
 // import { Button } from "@/components/ui/button";
@@ -1803,7 +1797,6 @@
 //     </Layout>
 //   );
 // }
-
 
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
@@ -2117,8 +2110,6 @@
 //   );
 // }
 
-
-
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import { Layout } from "@/components/layout/Layout";
@@ -2397,7 +2388,6 @@
 //   </div>
 // );
 
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -2443,6 +2433,7 @@ export default function Checkout() {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const finalTotal = Math.max(total - discount, 0);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   /* ================= PROMO ================= */
   const applyPromo = async () => {
@@ -2453,14 +2444,11 @@ export default function Checkout() {
 
     try {
       setLoadingPromo(true);
-      const res = await fetch(
-        "http://127.0.0.1:8000/api/auth/apply-promo/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code: promo.trim(), total }),
-        }
-      );
+      const res = await fetch(`${API_BASE_URL}/api/auth/apply-promo/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: promo.trim(), total }),
+      });
 
       const data = await res.json();
 
@@ -2503,19 +2491,16 @@ export default function Checkout() {
     }
 
     try {
-      const res = await fetch(
-        "http://127.0.0.1:8000/api/auth/create-order/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...form,
-            items,
-            subtotal: total,
-            discount,
-          }),
-        }
-      );
+      const res = await fetch(`${API_BASE_URL}/api/auth/create-order/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          items,
+          subtotal: total,
+          discount,
+        }),
+      });
 
       const order = await res.json();
 
@@ -2535,12 +2520,12 @@ export default function Checkout() {
 
         handler: async function (response: any) {
           const verifyRes = await fetch(
-            "http://127.0.0.1:8000/api/auth/verify-payment/",
+            `${API_BASE_URL}/api/auth/verify-payment/`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(response),
-            }
+            },
           );
 
           const verifyData = await verifyRes.json();
@@ -2590,18 +2575,53 @@ export default function Checkout() {
               </h2>
 
               <div className="grid md:grid-cols-2 gap-5">
-                <Input icon={<User />} name="name" placeholder="Full Name" onChange={handleChange} />
-                <Input icon={<Phone />} name="phone" placeholder="Phone Number" onChange={handleChange} />
-                <Input icon={<Building />} name="city" placeholder="City" onChange={handleChange} />
-                <Input icon={<Hash />} name="pincode" placeholder="Pincode" onChange={handleChange} />
-                <Input icon={<Map />} name="state" placeholder="State" onChange={handleChange} full />
-                <TextArea icon={<MapPin />} name="address" placeholder="Full Address" onChange={handleChange} />
+                <Input
+                  icon={<User />}
+                  name="name"
+                  placeholder="Full Name"
+                  onChange={handleChange}
+                />
+                <Input
+                  icon={<Phone />}
+                  name="phone"
+                  placeholder="Phone Number"
+                  onChange={handleChange}
+                />
+                <Input
+                  icon={<Building />}
+                  name="city"
+                  placeholder="City"
+                  onChange={handleChange}
+                />
+                <Input
+                  icon={<Hash />}
+                  name="pincode"
+                  placeholder="Pincode"
+                  onChange={handleChange}
+                />
+                <Input
+                  icon={<Map />}
+                  name="state"
+                  placeholder="State"
+                  onChange={handleChange}
+                  full
+                />
+                <TextArea
+                  icon={<MapPin />}
+                  name="address"
+                  placeholder="Full Address"
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
             {/* PAY */}
             <div className="bg-white rounded-2xl shadow-xl p-8">
-              <Button className="w-full text-lg" onClick={handlePay} disabled={loadingPay}>
+              <Button
+                className="w-full text-lg"
+                onClick={handlePay}
+                disabled={loadingPay}
+              >
                 <Lock className="w-5 h-5 mr-2" />
                 {loadingPay ? "Processing..." : `Proceed to Pay ₹${finalTotal}`}
               </Button>
@@ -2624,7 +2644,11 @@ export default function Checkout() {
                     placeholder="Enter promo code"
                     className="flex-1 border rounded-lg px-3 py-2"
                   />
-                  <Button variant="outline" onClick={applyPromo} disabled={loadingPromo}>
+                  <Button
+                    variant="outline"
+                    onClick={applyPromo}
+                    disabled={loadingPromo}
+                  >
                     {loadingPromo ? "Checking..." : "Apply"}
                   </Button>
                 </div>
@@ -2650,7 +2674,9 @@ export default function Checkout() {
 
 /* ====== REUSABLE INPUT COMPONENTS ====== */
 const Input = ({ icon, name, placeholder, onChange, full = false }: any) => (
-  <div className={`flex items-center border rounded-lg px-3 ${full ? "md:col-span-2" : ""}`}>
+  <div
+    className={`flex items-center border rounded-lg px-3 ${full ? "md:col-span-2" : ""}`}
+  >
     {icon && <span className="text-muted-foreground w-5 h-5">{icon}</span>}
     <input
       name={name}
