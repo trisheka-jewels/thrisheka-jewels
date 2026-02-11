@@ -18,6 +18,8 @@ import TermsConditions from "@/pages/TermsConditions";
 import RefundPolicy from "@/pages/RefundPolicy";
 import NotFound from "./pages/NotFound";
 import ShippingPolicy from "@/pages/ShippingPolicy";
+import ScrollToTop from "@/components/ScrollToTop";
+
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,7 @@ const App = () => (
 
         <BrowserRouter>
           <Layout>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/collections" element={<Collections />} />
