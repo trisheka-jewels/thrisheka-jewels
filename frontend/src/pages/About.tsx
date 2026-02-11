@@ -240,7 +240,7 @@ export default function About() {
             >
               <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
                 <img
-                  src="/placeholder.svg"
+                  src="/placeholder.png"
                   alt="Thrisheka Jewels Craftsmanship"
                   className="w-full h-full object-cover"
                 />
