@@ -2501,6 +2501,7 @@ export default function Checkout() {
           discount,
         }),
       });
+      //const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY;
 
       const order = await res.json();
 
@@ -2511,7 +2512,7 @@ export default function Checkout() {
       }
 
       const options = {
-        key: "rzp_test_SBBe23J2gnGlcp",
+        key: "rzp_live_SEobW9DzKRSx0F",
         amount: order.amount,
         currency: "INR",
         name: "Thrisheka Jewels",
