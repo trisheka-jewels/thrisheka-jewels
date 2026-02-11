@@ -2408,7 +2408,8 @@ import { toast } from "sonner";
 import { loadRazorpay } from "@/lib/razorpay";
 
 export default function Checkout() {
-  const { items, total, clearCart } = useCart();
+  //const { items, total, clearCart } = useCart();
+  const { items, total, shipping, grandTotal, clearCart } = useCart();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -2432,7 +2433,8 @@ export default function Checkout() {
   const handleChange = (e: any) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const finalTotal = Math.max(total - discount, 0);
+  //const finalTotal = Math.max(total - discount, 0);
+  const finalTotal = Math.max(grandTotal - discount, 0);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   /* ================= PROMO ================= */
@@ -2494,12 +2496,20 @@ export default function Checkout() {
       const res = await fetch(`${API_BASE_URL}/api/auth/create-order/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // body: JSON.stringify({
+        //   ...form,
+        //   items,
+        //   subtotal: total,
+        //   discount,
+        // }),
         body: JSON.stringify({
-          ...form,
-          items,
-          subtotal: total,
-          discount,
-        }),
+  ...form,
+  items,
+  subtotal: total,
+  shipping,
+  discount,
+  total: finalTotal,
+}),
       });
       //const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY;
 
