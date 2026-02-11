@@ -2541,13 +2541,29 @@ export default function Checkout() {
 
           const verifyData = await verifyRes.json();
 
+          // if (verifyData.success) {
+          //   toast.success("Payment successful!");
+          //   clearCart();
+          //   setTimeout(() => navigate("/"), 1500);
+          // } else {
+          //   toast.error("Payment verification failed");
+          // }
           if (verifyData.success) {
-            toast.success("Payment successful!");
-            clearCart();
-            setTimeout(() => navigate("/"), 1500);
-          } else {
-            toast.error("Payment verification failed");
-          }
+  clearCart();
+  navigate("/order-status", {
+    state: {
+      status: "success",
+      orderId: order.order_id,
+    },
+  });
+} else {
+  navigate("/order-status", {
+    state: {
+      status: "failed",
+    },
+  });
+}
+
         },
 
         prefill: {
