@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/hooks/useCart";
 import { Layout } from "@/components/layout/Layout";
-
+import OrderStatus from "@/pages/OrderStatus";
 import Index from "./pages/Index";
 import Collections from "./pages/Collections";
 import Category from "./pages/Category";
@@ -38,6 +38,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/order-status" element={<OrderStatus />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route
                 path="/terms-and-conditions"
