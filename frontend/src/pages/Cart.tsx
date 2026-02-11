@@ -428,7 +428,9 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 
 export default function Cart() {
-  const { items, total, updateQuantity, removeItem, clearCart } = useCart();
+  //const { items, total, updateQuantity, removeItem, clearCart } = useCart();
+  const { items, total, shipping, grandTotal, updateQuantity, removeItem, clearCart } = useCart();
+
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("en-IN", {
@@ -437,8 +439,8 @@ export default function Cart() {
       maximumFractionDigits: 0,
     }).format(price);
 
-  const shipping = total >= 2000 ? 0 : 99;
-  const grandTotal = total + shipping;
+  //const shipping = total >= 2000 ? 0 : 99;
+  //const grandTotal = total + shipping;
 
   if (items.length === 0) {
     return (
