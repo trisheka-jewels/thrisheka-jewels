@@ -7,11 +7,11 @@ const features = [
   //   title: '925 Sterling Silver',
   //   description: 'All our silver jewellery is made with certified 925 sterling silver',
   // },
-  // {
-  //   icon: Award,
-  //   title: 'BIS Hallmark',
-  //   description: 'Every piece is BIS hallmarked for guaranteed purity',
-  // },
+  {
+    icon: Award,
+    title: 'Exceptional Quality',
+    description: 'Every piece is crafted with exceptional quality',
+  },
   {
     icon: Heart,
     title: 'Handcrafted with Love',
