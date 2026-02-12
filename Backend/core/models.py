@@ -255,6 +255,7 @@ class Order(models.Model):
     pincode = models.CharField(max_length=10)
 
     subtotal = models.IntegerField()
+    shipping = models.IntegerField(default=0)
     discount = models.IntegerField(default=0)
     total_amount = models.IntegerField()
 
