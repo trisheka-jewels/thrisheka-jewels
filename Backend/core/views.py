@@ -551,6 +551,7 @@ def create_order(request):
             state=data["state"],
             pincode=data["pincode"],
             subtotal=subtotal,
+            shipping=shipping,
             discount=discount,
             total_amount=total_amount,
         )
