@@ -129,7 +129,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   // 🔥 Centralized shipping logic
-  const shipping = total >= 2000 || total === 0 ? 0 : 0;
+  const shipping = total >= 2000 || total === 0 ? 0 : 99;
 
   const grandTotal = total + shipping;
 
