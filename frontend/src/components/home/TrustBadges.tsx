@@ -2,25 +2,25 @@ import { motion } from 'framer-motion';
 import { Shield, Award, RefreshCcw, Truck, Wallet } from 'lucide-react';
 
 const badges = [
-  {
-    icon: Shield,
-    label: '925 Sterling Silver',
-  },
-  {
-    icon: Award,
-    label: 'BIS Hallmark',
-  },
-  {
-    icon: RefreshCcw,
-    label: '7-Day Returns',
-  },
+  // {
+  //   icon: Shield,
+  //   label: '925 Sterling Silver',
+  // },
+  // {
+  //   icon: Award,
+  //   label: 'BIS Hallmark',
+  // },
+  // {
+  //   icon: RefreshCcw,
+  //   label: '7-Day Returns',
+  // },
   {
     icon: Truck,
     label: 'Free Shipping ₹2000+',
   },
   {
-    icon: Wallet,
-    label: 'COD Available',
+    icon: Shield,
+    label: 'Excellent Quality',
   },
 ];
 
