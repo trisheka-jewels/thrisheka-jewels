@@ -177,18 +177,18 @@ import { motion } from "framer-motion";
 import { Gem, Shield, Heart, Award } from "lucide-react";
 
 const values = [
-  {
-    icon: Gem,
-    title: "925 Sterling Silver",
-    description:
-      "Every piece is crafted from authentic 925 sterling silver, ensuring lasting quality and value.",
-  },
-  {
-    icon: Shield,
-    title: "BIS Hallmark Certified",
-    description:
-      "All our jewellery carries the BIS Hallmark certification, your guarantee of purity.",
-  },
+  // {
+  //   icon: Gem,
+  //   title: "925 Sterling Silver",
+  //   description:
+  //     "Every piece is crafted from authentic 925 sterling silver, ensuring lasting quality and value.",
+  // },
+  // {
+  //   icon: Shield,
+  //   title: "BIS Hallmark Certified",
+  //   description:
+  //     "All our jewellery carries the BIS Hallmark certification, your guarantee of purity.",
+  // },
   {
     icon: Heart,
     title: "Handcrafted with Love",
@@ -302,7 +302,7 @@ export default function About() {
             <div className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-6 py-3 rounded-full">
               <Shield className="w-5 h-5" />
               <span className="font-semibold">
-                BIS Hallmark Certified
+                Exceptional Quality
               </span>
             </div>
           </motion.div>
