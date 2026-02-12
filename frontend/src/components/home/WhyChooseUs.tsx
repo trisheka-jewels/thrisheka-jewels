@@ -2,36 +2,36 @@ import { motion } from 'framer-motion';
 import { Shield, Award, Gem, Heart, Truck, RefreshCcw } from 'lucide-react';
 
 const features = [
-  {
-    icon: Gem,
-    title: '925 Sterling Silver',
-    description: 'All our silver jewellery is made with certified 925 sterling silver',
-  },
-  {
-    icon: Award,
-    title: 'BIS Hallmark',
-    description: 'Every piece is BIS hallmarked for guaranteed purity',
-  },
+  // {
+  //   icon: Gem,
+  //   title: '925 Sterling Silver',
+  //   description: 'All our silver jewellery is made with certified 925 sterling silver',
+  // },
+  // {
+  //   icon: Award,
+  //   title: 'BIS Hallmark',
+  //   description: 'Every piece is BIS hallmarked for guaranteed purity',
+  // },
   {
     icon: Heart,
     title: 'Handcrafted with Love',
     description: 'Each piece is meticulously crafted by skilled artisans',
   },
-  {
-    icon: RefreshCcw,
-    title: '7-Day Returns',
-    description: 'Easy returns within 7 days if you are not satisfied',
-  },
+  // {
+  //   icon: RefreshCcw,
+  //   title: '7-Day Returns',
+  //   description: 'Easy returns within 7 days if you are not satisfied',
+  // },
   {
     icon: Truck,
     title: 'Free Shipping',
     description: 'Free shipping on orders above ₹2000',
   },
-  {
-    icon: Shield,
-    title: 'COD Available',
-    description: 'Cash on delivery available for your convenience',
-  },
+  // {
+  //   icon: Shield,
+  //   title: 'COD Available',
+  //   description: 'Cash on delivery available for your convenience',
+  // },
 ];
 
 export function WhyChooseUs() {
