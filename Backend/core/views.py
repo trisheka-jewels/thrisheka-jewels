@@ -522,8 +522,9 @@ def create_order(request):
 
     try:
         subtotal = int(float(data.get("subtotal", 0)))
+        shipping = int(float(data.get("shipping", 0)))
         discount = int(float(data.get("discount", 0)))
-        total_amount = subtotal - discount
+        total_amount = subtotal +shipping- discount
 
         if total_amount <= 0:
             return Response(
