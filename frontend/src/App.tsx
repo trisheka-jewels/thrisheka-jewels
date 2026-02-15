@@ -19,6 +19,7 @@ import RefundPolicy from "@/pages/RefundPolicy";
 import NotFound from "./pages/NotFound";
 import ShippingPolicy from "@/pages/ShippingPolicy";
 import ScrollToTop from "@/components/ScrollToTop";
+import ProductDetail from "@/pages/ProductDetail";
 
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/collections" element={<Collections />} />
               <Route path="/category/:slug" element={<Category />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/cart" element={<Cart />} />
