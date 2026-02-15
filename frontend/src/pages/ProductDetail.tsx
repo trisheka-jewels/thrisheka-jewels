@@ -518,7 +518,7 @@ export default function ProductDetail() {
           {/* Additional Info */}
           <div className="mt-8 pt-8 border-t space-y-3 text-sm text-muted-foreground">
             <p>✓ Handcrafted with premium materials</p>
-            <p>✓ Free shipping on orders above ₹10,000</p>
+            <p>✓ Free shipping on orders above ₹2,000</p>
             {/* <p>✓ 7-day return policy</p> */}
             <p>✓ Authentic South Indian craftsmanship</p>
           </div>
