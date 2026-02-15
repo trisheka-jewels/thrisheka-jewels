@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { toast } from "sonner";
 import InnerImageZoom from "react-inner-image-zoom";
-import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
+// import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import { products as LOCAL_PRODUCTS } from "@/data/products";
 import type { Product } from "@/data/products";
 
