@@ -2522,7 +2522,7 @@ export default function Checkout() {
       }
 
       const options = {
-        key: "rzp_live_SEobW9DzKRSx0F",
+        key: "rzp_live_SSfPVBwATrfLO7",
         amount: order.amount,
         currency: "INR",
         name: "Thrisheka Jewels",
